@@ -9,7 +9,7 @@ const SignUpSignIn = () => {
   if (pathName === "/signin") href = "/signup";
   return (
     <Link
-      href={href}
+      href={href || "/signin"}
       className="cursor-pointer py-2 px-4 rounded-xl border-green-700 
       border-2 hover:bg-green-700 hover:text-white 
       transition-all duration-300"
