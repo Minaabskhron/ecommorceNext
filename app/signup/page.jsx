@@ -1,11 +1,13 @@
-import signup from "@/public/signup.svg";
+"use client";
+
+import signupImg from "@/public/signup.svg";
 import Image from "next/image";
 import Link from "next/link";
 const page = () => {
   return (
     <div className="flex justify-evenly items-center mt-10  ">
       <div>
-        <Image src={signup} alt="sign in image" />
+        <Image src={signupImg} alt="sign in image" />
       </div>
       <div>
         <h1 className="text-3xl font-bold mb-2 text-gray-800">

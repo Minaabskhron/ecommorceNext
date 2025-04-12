@@ -32,7 +32,7 @@ const handler = NextAuth({
           return user;
         } catch (error) {
           console.error("Authentication error:", error);
-          return null; // Rejects login
+          throw new Error(error.message); // Rejects login
         }
       },
     }),

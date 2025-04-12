@@ -9,14 +9,13 @@ import { useRouter } from "next/navigation";
 const page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState("");
   const router = useRouter();
 
   const isDisabled = email.trim() === "" || password.trim() === "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     const res = await signIn("credentials", {
       email,
@@ -27,7 +26,7 @@ const page = () => {
     if (res?.ok) {
       router.push("/");
     } else {
-      setError("Invalid credentials. Please try again.");
+      setErrors(res?.error || "Invalid credentials. Please try again.");
     }
   };
 
@@ -71,6 +70,7 @@ const page = () => {
             required
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
+          {errors && <p>{errors}</p>}
           <button
             disabled={isDisabled}
             type="submit"
