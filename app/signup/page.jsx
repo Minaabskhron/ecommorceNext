@@ -16,6 +16,7 @@ const page = () => {
   const [password, setPassword] = useState("");
   const [rePassword, setRepassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const formData = { name, email, phone, password, rePassword };
@@ -40,6 +41,7 @@ const page = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const res = await fetch(`${baseUrl}/api/v1/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -48,6 +50,7 @@ const page = () => {
 
       const data = await res.json();
       if (!res.ok) {
+        setLoading(false);
         throw new Error(data.errors?.msg || data.message || "Sign up failed");
       }
       const signInRes = await signIn("credentials", {
@@ -55,6 +58,7 @@ const page = () => {
         password,
         redirect: false,
       });
+      setLoading(false);
       if (signInRes?.ok) {
         router.push("/");
       } else {
@@ -195,12 +199,12 @@ const page = () => {
             <p className="bg-red-200 p-2 px-2 mt-4 rounded-xl">{errors.back}</p>
           )}
           <button
-            disabled={hasFormErrors()}
+            disabled={hasFormErrors() || loading}
             className="w-full mt-10 disabled:opacity-75 
           disabled:cursor-not-allowed bg-green-700 
           rounded-lg py-2 text-white cursor-pointer hover:bg-green-800"
           >
-            Sign up
+            {loading ? "loading..." : "Sign Up"}
           </button>
         </form>
         <div className="font-semibold mt-5 mb-20">
