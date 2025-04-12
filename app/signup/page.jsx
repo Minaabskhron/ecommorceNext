@@ -20,9 +20,20 @@ const page = () => {
 
   const formData = { name, email, phone, password, rePassword };
 
+  const hasFormErrors = () => {
+    return (
+      Object.values(errors).some((error) => error && error !== "") ||
+      name === "" ||
+      email === "" ||
+      phone === "" ||
+      password === "" ||
+      rePassword === "" ||
+      password !== rePassword
+    );
+  };
   const handleBlur = (fieldName) => {
     const error = validateField(fieldName, formData[fieldName], formData);
-    setErrors((prev) => ({ ...prev, [fieldName]: error }));
+    setErrors((prev) => ({ ...prev, [fieldName]: error, back: "" }));
   };
 
   const handleSubmit = async (e) => {
@@ -183,7 +194,12 @@ const page = () => {
           {errors.back && (
             <p className="bg-red-200 p-2 px-2 mt-4 rounded-xl">{errors.back}</p>
           )}
-          <button className="w-full mt-10 disabled:opacity-75 disabled:cursor-not-allowed bg-green-700 rounded-lg py-2 text-white cursor-pointer hover:bg-green-800">
+          <button
+            disabled={hasFormErrors()}
+            className="w-full mt-10 disabled:opacity-75 
+          disabled:cursor-not-allowed bg-green-700 
+          rounded-lg py-2 text-white cursor-pointer hover:bg-green-800"
+          >
             Sign up
           </button>
         </form>
