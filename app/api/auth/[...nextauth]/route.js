@@ -5,30 +5,34 @@ import CredentialsProvider from "next-auth/providers/credentials";
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "Credentials", // Display name for this provider
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        // Defines login form fields
+        email: { label: "Email", type: "email" }, // Email input
+        password: { label: "Password", type: "password" }, // Password input
       },
       async authorize(credentials) {
+        // This function is called when user submits login form
         try {
+          // Send credentials to your backend API
           const res = await fetch(`${baseUrl}/api/v1/auth/signin`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
+            body: JSON.stringify(credentials), // Send email/password
           });
 
-          const user = await res.json();
+          const user = await res.json(); // Parse API response
 
           if (!res.ok) {
-            throw new Error(data.message || "Authentication failed");
+            // If HTTP status is not 200-299
+            throw new Error(user.message || "Authentication failed");
           }
 
-          // Return object that will be encoded in the JWT
+          // Returned object gets stored in JWT
           return user;
         } catch (error) {
           console.error("Authentication error:", error);
-          return null;
+          return null; // Rejects login
         }
       },
     }),
@@ -37,22 +41,25 @@ const handler = NextAuth({
     signIn: "/signin",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt", // Uses JWT for session management
   },
-  secret: process.env.AUTH_SECRET,
+  secret: process.env.AUTH_SECRET, // Encryption key
   callbacks: {
     async jwt({ token, user }) {
-      // Initial sign in
+      // Called when:
+      // - User logs in (initial token creation)
+      // - Session is accessed (token updates)
       if (user) {
-        token.accessToken = user.token;
-        token.role = user.role;
+        // First login
+        token.accessToken = user.token; // Store API's JWT
+        token.role = user.role; // Add custom claim
       }
-      return token;
+      return token; // Becomes available in session callback
     },
     async session({ session, token }) {
-      // Send properties to the client
-      session.accessToken = token.accessToken;
-      session.user.role = token.role;
+      // Exposes data to client components via useSession()
+      session.accessToken = token.accessToken; // For API calls
+      session.user.role = token.role; // For role-based UI
       return session;
     },
   },
