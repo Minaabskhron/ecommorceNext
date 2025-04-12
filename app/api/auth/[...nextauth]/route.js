@@ -25,13 +25,14 @@ const handler = NextAuth({
 
           if (!res.ok) {
             // If HTTP status is not 200-299
-            throw new Error(user.message || "Authentication failed");
+            throw new Error(
+              user.errors?.msg || user.message || "Authentication failed"
+            );
           }
 
           // Returned object gets stored in JWT
           return user;
         } catch (error) {
-          console.error("Authentication error:", error);
           throw new Error(error.message); // Rejects login
         }
       },
