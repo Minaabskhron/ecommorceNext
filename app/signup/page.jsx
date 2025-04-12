@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { baseUrl } from "../_lib/const";
+import { validateField } from "../_lib/validateForm";
 
 const page = () => {
   const [name, setName] = useState("");
@@ -14,22 +15,19 @@ const page = () => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [rePassword, setRepassword] = useState("");
-  const [errors, setErrors] = useState("");
+  const [errors, setErrors] = useState({});
   const router = useRouter();
 
-  const isDisabled =
-    name.trim() === "" ||
-    email.trim() === "" ||
-    phone.trim() === "" ||
-    password.trim() === "" ||
-    rePassword.trim() === "";
+  const formData = { name, email, phone, password, rePassword };
+
+  const handleBlur = (fieldName) => {
+    const error = validateField(fieldName, formData[fieldName], formData);
+    setErrors((prev) => ({ ...prev, [fieldName]: error }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== rePassword) {
-      setErrors("Passwords don't match");
-      return;
-    }
+
     try {
       const res = await fetch(`${baseUrl}/api/v1/auth/signup`, {
         method: "POST",
@@ -38,7 +36,6 @@ const page = () => {
       });
 
       const data = await res.json();
-      console.log(data);
       if (!res.ok) {
         throw new Error(data.errors?.msg || data.message || "Sign up failed");
       }
@@ -53,7 +50,7 @@ const page = () => {
         router.push("/signin"); // Redirect to sign-in if auto-login fails
       }
     } catch (error) {
-      setErrors(error.message);
+      setErrors({ back: error.message });
     }
   };
   return (
@@ -67,10 +64,18 @@ const page = () => {
         </h1>
         <p>Welcome back to FreshCart! Enter your email to get started.</p>
         <form onSubmit={handleSubmit} className="mt-10">
-          <label htmlFor="name" className="block pb-2 font-semibold text-sm">
-            Name
-          </label>
+          <div className="flex justify-between">
+            <label htmlFor="name" className="block pb-2 font-semibold text-sm">
+              Name
+            </label>
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name}</p>
+            )}
+          </div>
           <input
+            onBlur={() => {
+              handleBlur("name");
+            }}
             id="name"
             placeholder="Name"
             type="name"
@@ -80,10 +85,19 @@ const page = () => {
             onChange={(e) => setName(e.target.value)}
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
-          <label htmlFor="email" className="block my-2 font-semibold text-sm">
-            Email
-          </label>
+          <div className="flex justify-between items-center">
+            <label htmlFor="email" className="block my-2 font-semibold text-sm">
+              Email
+            </label>
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email}</p>
+            )}
+          </div>
+
           <input
+            onBlur={() => {
+              handleBlur("email");
+            }}
             id="email"
             placeholder="Email"
             type="email"
@@ -94,10 +108,19 @@ const page = () => {
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
 
-          <label htmlFor="phone" className="block my-2 font-semibold text-sm">
-            Phone
-          </label>
+          <div className="flex justify-between items-center">
+            <label htmlFor="phone" className="block my-2 font-semibold text-sm">
+              Phone
+            </label>
+            {errors.phone && (
+              <p className="text-red-500 text-sm">{errors.phone}</p>
+            )}
+          </div>
+
           <input
+            onBlur={() => {
+              handleBlur("phone");
+            }}
             id="phone"
             placeholder="Phone"
             type="phone"
@@ -107,13 +130,22 @@ const page = () => {
             required
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
-          <label
-            htmlFor="password"
-            className="block my-2 font-semibold text-sm"
-          >
-            Password
-          </label>
+          <div className="flex justify-between items-center">
+            <label
+              htmlFor="password"
+              className="block my-2 font-semibold text-sm"
+            >
+              Password
+            </label>
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password}</p>
+            )}
+          </div>
+
           <input
+            onBlur={() => {
+              handleBlur("password");
+            }}
             id="password"
             placeholder="********"
             type="password"
@@ -123,13 +155,22 @@ const page = () => {
             required
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
-          <label
-            htmlFor="rePassword"
-            className="block my-2 font-semibold text-sm"
-          >
-            rePassword
-          </label>
+          <div className="flex justify-between items-center">
+            <label
+              htmlFor="rePassword"
+              className="block my-2 font-semibold text-sm"
+            >
+              rePassword
+            </label>
+            {errors.rePassword && (
+              <p className="text-red-500 text-sm">{errors.rePassword}</p>
+            )}
+          </div>
+
           <input
+            onBlur={() => {
+              handleBlur("rePassword");
+            }}
             id="rePassword"
             placeholder="********"
             type="password"
@@ -139,13 +180,10 @@ const page = () => {
             required
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
-          {errors && (
-            <p className="bg-red-200 p-2 px-2 mt-4 rounded-xl">{errors}</p>
+          {errors.back && (
+            <p className="bg-red-200 p-2 px-2 mt-4 rounded-xl">{errors.back}</p>
           )}
-          <button
-            disabled={isDisabled}
-            className="w-full mt-10 disabled:opacity-75 disabled:cursor-not-allowed bg-green-700 rounded-lg py-2 text-white cursor-pointer hover:bg-green-800"
-          >
+          <button className="w-full mt-10 disabled:opacity-75 disabled:cursor-not-allowed bg-green-700 rounded-lg py-2 text-white cursor-pointer hover:bg-green-800">
             Sign up
           </button>
         </form>
