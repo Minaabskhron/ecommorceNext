@@ -70,7 +70,9 @@ const page = () => {
             required
             className="ps-2 w-full py-2 border-2 border-gray-300 rounded-lg"
           />
-          {errors && <p>{errors}</p>}
+          {errors && (
+            <p className="bg-red-200 p-2 px-2 mt-4 rounded-xl">{errors}</p>
+          )}
           <button
             disabled={isDisabled}
             type="submit"
@@ -81,7 +83,7 @@ const page = () => {
         </form>
         <div className="font-semibold mt-5 mb-20">
           <p className="mb-2">
-            You don’t have an account?{" "}
+            You don’t have an account?
             <Link className="text-green-700" href="/signup">
               Sign Up
             </Link>
