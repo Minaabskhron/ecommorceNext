@@ -37,6 +37,10 @@ const page = () => {
     setErrors((prev) => ({ ...prev, [fieldName]: error, back: "" }));
   };
 
+  const onkeyUp = (value) => {
+    if (errors[value] || errors.back) handleBlur(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -91,6 +95,9 @@ const page = () => {
             onBlur={() => {
               handleBlur("name");
             }}
+            onKeyUp={() => {
+              onkeyUp("name");
+            }}
             id="name"
             placeholder="Name"
             type="name"
@@ -110,6 +117,9 @@ const page = () => {
           </div>
 
           <input
+            onKeyUp={() => {
+              onkeyUp("email");
+            }}
             onBlur={() => {
               handleBlur("email");
             }}
@@ -136,6 +146,9 @@ const page = () => {
             onBlur={() => {
               handleBlur("phone");
             }}
+            onKeyUp={() => {
+              onkeyUp("phone");
+            }}
             id="phone"
             placeholder="Phone"
             type="phone"
@@ -161,6 +174,9 @@ const page = () => {
             onBlur={() => {
               handleBlur("password");
             }}
+            onKeyUp={() => {
+              onkeyUp("password");
+            }}
             id="password"
             placeholder="********"
             type="password"
@@ -183,6 +199,9 @@ const page = () => {
           </div>
 
           <input
+            onKeyUp={() => {
+              onkeyUp("rePassword");
+            }}
             onBlur={() => {
               handleBlur("rePassword");
             }}
