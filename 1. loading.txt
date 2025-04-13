@@ -1,7 +1,0 @@
-1. loading
-2. errors in the sign up
-3. authentication
-4. removing the sign in if the person signed in
-5. albta3a aly btt7rk
-6. alliked
-7. alcart

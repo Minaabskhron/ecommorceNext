@@ -2,6 +2,12 @@ import Product from "../_components/Product";
 import { baseUrl } from "../_lib/const";
 
 const page = async () => {
+  // const session = await getServerSession(authOptions); it is working but for just one page
+
+  // if (!session) {
+  //   redirect("/signin");
+  // }
+
   const res = await fetch(`${baseUrl}/api/v1/products`);
 
   if (!res.ok) throw new Error("failed to fetch products");
