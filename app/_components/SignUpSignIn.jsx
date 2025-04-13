@@ -35,7 +35,9 @@ const SignUpSignIn = () => {
       {session ? (
         <div ref={menuRef} className="flex justify-center items-center me-20">
           <div className=" relative">
-            <Heart color={"text-green-700"} />
+            <Link href="/wishlist">
+              <Heart color={"text-green-700"} />
+            </Link>
             <span className="absolute top-0 py-[3px] text-[9px] text-white -left-1 px-[5px] bg-red-500 rounded-lg">
               0
             </span>

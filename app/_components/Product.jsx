@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Star from "../_svg/Star";
-import Heart from "../_svg/Heart";
+import AddToWishlist from "./AddToWishlist";
 
 const Product = ({ product }) => {
   return (
@@ -56,7 +56,7 @@ const Product = ({ product }) => {
             Add to cart
           </button>
         </div>
-        <Heart color={"text-red-500"} />
+        <AddToWishlist id={product._id} />
       </div>
     </div>
   );

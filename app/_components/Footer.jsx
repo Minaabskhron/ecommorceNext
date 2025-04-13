@@ -10,7 +10,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#eee] pt-10 p-5 text-gray-500">
+    <footer className="bg-[#eee] pt-10 p-5 text-gray-500 absloute bottom-0 left-0 right-0">
       <h3 className="text-black text-2xl mb-2">Get The FreshCart App</h3>
       <p>We will send you a link, open it on your phone to download the app.</p>
       <div className="flex gap-3 justify-center items-center border-b pb-6 border-b-gray-300">

@@ -62,7 +62,7 @@ const page = () => {
         password,
         redirect: false,
       });
-      setLoading(false);
+
       if (signInRes?.ok) {
         router.push("/");
       } else {
@@ -70,6 +70,8 @@ const page = () => {
       }
     } catch (error) {
       setErrors({ back: error.message });
+    } finally {
+      setLoading(false);
     }
   };
   return (

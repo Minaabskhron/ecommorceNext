@@ -1,11 +1,11 @@
-const Heart = ({ color }) => {
+const Heart = ({ color, fill }) => {
   return (
     <svg
       stroke="currentColor"
       fill="currentColor"
       strokeWidth="0"
       viewBox="0 0 512 512"
-      className={`w-8 h-8 cursor-pointer ${color}`}
+      className={`w-8 h-8 cursor-pointer ${fill} ${color}`}
       height="33"
       width="33"
       xmlns="http://www.w3.org/2000/svg"
