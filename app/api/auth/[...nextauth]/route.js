@@ -53,7 +53,9 @@ export const authOptions = {
       if (user) {
         // First login
         token.accessToken = user.token; // Store API's JWT
-        token.role = user.role; // Add custom claim
+        token.role = user.user.role; // Add custom claim
+        token.name = user.user.name; // <-- Add this line
+        token.email = user.user.email; // optional
       }
       return token; // Becomes available in session callback
     },
@@ -61,6 +63,8 @@ export const authOptions = {
       // Exposes data to client components via useSession()
       session.accessToken = token.accessToken; // For API calls
       session.user.role = token.role; // For role-based UI
+      session.user.name = token.name; // <-- Add this line
+      session.user.email = token.email; // optional
       return session;
     },
   },

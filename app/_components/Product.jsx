@@ -56,7 +56,7 @@ const Product = ({ product }) => {
             Add to cart
           </button>
         </div>
-        <Heart fill={"none"} color={"text-red-500"} />
+        <Heart color={"text-red-500"} />
       </div>
     </div>
   );

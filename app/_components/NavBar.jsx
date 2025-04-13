@@ -32,10 +32,6 @@ const NavBar = () => {
         <div className="me-20 ">
           <SignUpSignIn />
         </div>
-
-        {/* <div className="me-20">
-          <Heart color={"text-green-700"} fill={"none"} />
-        </div> */}
       </div>
     </div>
   );
