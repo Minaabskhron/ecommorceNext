@@ -26,5 +26,5 @@ export async function middleware(req) {
 
 // This tells Next.js which routes to apply the middleware on
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico|signin).*)"], // Apply to all routes except _next, api, and favicon
+  matcher: ["/((?!_next|api|favicon.ico|signin|signup).*)"], // Apply to all routes except _next, api, and favicon
 };
