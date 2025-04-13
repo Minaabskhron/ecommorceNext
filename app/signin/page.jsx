@@ -10,6 +10,8 @@ const page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const isDisabled = email.trim() === "" || password.trim() === "";
@@ -17,6 +19,7 @@ const page = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     const res = await signIn("credentials", {
       email,
       password,
@@ -28,6 +31,7 @@ const page = () => {
     } else {
       setErrors(res?.error || "Invalid credentials. Please try again.");
     }
+    setLoading(false);
   };
 
   return (
@@ -78,7 +82,7 @@ const page = () => {
             type="submit"
             className="w-full mt-10 disabled:opacity-75 disabled:cursor-not-allowed bg-green-700 rounded-lg py-2 text-white cursor-pointer hover:bg-green-800"
           >
-            Sign in
+            {loading ? "loading..." : "Sign In"}
           </button>
         </form>
         <div className="font-semibold mt-5 mb-20">
