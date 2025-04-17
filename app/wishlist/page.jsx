@@ -4,22 +4,30 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import WishListClient from "../_components/WishListClient";
 
 const page = async () => {
-  const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
 
-  const token = session.accessToken;
+    const token = session.accessToken;
 
-  const WishlistRes = await fetch(`${baseUrl}/api/v1/wishlist`, {
-    headers: { token },
-  });
-  const wishListData = await WishlistRes.json();
+    if (!token) throw new Error("User is not authenticated");
 
-  // console.log(wishListData.data[0]);
+    const WishlistRes = await fetch(`${baseUrl}/api/v1/wishlist`, {
+      headers: { token },
+    });
 
-  return (
-    <div className="mx-30">
-      <WishListClient token={token} wishListData={wishListData} />
-    </div>
-  );
+    if (!WishlistRes.ok)
+      throw new Error(WishlistRes.message || "failed to fetch wishlist");
+
+    const wishListData = await WishlistRes.json();
+
+    return (
+      <div className="mx-30">
+        <WishListClient token={token} wishListData={wishListData} />
+      </div>
+    );
+  } catch (error) {
+    console.error("Error loading wishlist:", error.message);
+  }
 };
 
 export default page;
