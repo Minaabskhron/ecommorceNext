@@ -1,11 +1,7 @@
-import Heart from "@/app/_svg/Heart";
-import Star from "@/app/_svg/Star";
 import { baseUrl } from "@/app/_lib/const";
 import Image from "next/image";
 
-const page = async ({ params }) => {
-  const { id } = await params;
-
+const WishListProduct = async ({ id }) => {
   const res = await fetch(`${baseUrl}/api/v1/products/${id}`);
 
   if (!res.ok) throw new Error("failed to fetch products");
@@ -14,12 +10,9 @@ const page = async ({ params }) => {
 
   return (
     <div className="p-10 flex gap-20 items-center ">
-      <Image
-        src={data.images[0]}
-        width={400}
-        height={500}
-        alt="product image"
-      />
+      <div className="">
+        <Image src={data.images[0]} width={400} height={500} alt="" />
+      </div>
       <div className="flex-grow">
         <h2 className="text-3xl font-semibold mb-3">{data.title}</h2>
         <p className="font-semibold">{data.description}</p>
@@ -44,4 +37,4 @@ const page = async ({ params }) => {
   );
 };
 
-export default page;
+export default WishListProduct;

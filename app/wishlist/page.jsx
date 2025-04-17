@@ -1,12 +1,23 @@
-const page = () => {
+import { getServerSession } from "next-auth";
+import { baseUrl } from "../_lib/const";
+import { authOptions } from "../api/auth/[...nextauth]/route";
+import WishListClient from "../_components/WishListClient";
+
+const page = async () => {
+  const session = await getServerSession(authOptions);
+
+  const token = session.accessToken;
+
+  const WishlistRes = await fetch(`${baseUrl}/api/v1/wishlist`, {
+    headers: { token },
+  });
+  const wishListData = await WishlistRes.json();
+
+  // console.log(wishListData.data[0]);
+
   return (
-    <div className="ps-20 pt-10 ">
-      <h1 className="text-3xl font-semibold mb-4 text-gray-500">
-        Shopping Cart
-      </h1>
-      <div className="flex justify-center items-center py-20">
-        <p className="text-5xl font-semibold">Your Wishlist Is Empty</p>
-      </div>
+    <div className="mx-30">
+      <WishListClient token={token} wishListData={wishListData} />
     </div>
   );
 };

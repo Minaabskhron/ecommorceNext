@@ -34,7 +34,7 @@ const SignUpSignIn = () => {
     <>
       {session ? (
         <div ref={menuRef} className="flex justify-center items-center me-20">
-          <div className=" relative">
+          <div className="cursor-pointer relative">
             <Link href="/wishlist">
               <Heart color={"text-green-700"} />
             </Link>
