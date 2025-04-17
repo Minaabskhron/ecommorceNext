@@ -3,6 +3,7 @@ import { useState } from "react";
 import { baseUrl } from "../_lib/const";
 import Heart from "../_svg/Heart";
 import { useSession } from "next-auth/react";
+import LoadingSvg from "../_svg/LoadingSvg";
 
 const AddToWishlist = ({ id }) => {
   const [loading, setLoading] = useState(false);
@@ -45,7 +46,7 @@ const AddToWishlist = ({ id }) => {
         sendWishList(id);
       }}
     >
-      {loading ? "" : <Heart color={"text-red-500"} />}
+      {loading ? <LoadingSvg /> : <Heart color={"text-red-500"} />}
     </div>
   );
 };
