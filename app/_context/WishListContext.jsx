@@ -1,20 +1,23 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { baseUrl } from "../_lib/const";
+import { useRouter } from "next/navigation";
 
 const WishListContext = createContext();
 
 const WishListProvider = ({ children }) => {
+  const router = useRouter();
+
   const { data: session, status } = useSession();
   const [wishList, setWishList] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState(null);
   const [stateId, setStateId] = useState(null);
 
   const token = session?.accessToken;
+
   const getWishList = async () => {
     if (!token) {
       throw new Error("User is not authenticated");
@@ -65,6 +68,11 @@ const WishListProvider = ({ children }) => {
   };
 
   const sendWishList = async (id) => {
+    if (!token) {
+      router.push("/signin");
+      return;
+    }
+
     setStateId(id);
     setLoading(true);
     const isInWishList = wishList?.data?.some((product) => product._id === id);
