@@ -7,10 +7,12 @@ import Heart from "../_svg/Heart";
 import Cart from "../_svg/Cart";
 import { useEffect, useRef, useState } from "react";
 import { signOut } from "next-auth/react";
+import { useWishList } from "../_context/WishListContext";
 
 const SignUpSignIn = () => {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
+  const { wishList } = useWishList();
 
   const menuRef = useRef(null);
 
@@ -30,6 +32,7 @@ const SignUpSignIn = () => {
   let href;
   if (pathName === "/signup") href = "/signin";
   if (pathName === "/signin") href = "/signup";
+
   return (
     <>
       {session ? (
@@ -39,7 +42,7 @@ const SignUpSignIn = () => {
               <Heart color={"text-green-700"} />
             </Link>
             <span className="absolute top-0 py-[3px] text-[9px] text-white -left-1 px-[5px] bg-red-500 rounded-lg">
-              0
+              {wishList.data?.length}
             </span>
           </div>
           <div className="relative ms-5">
