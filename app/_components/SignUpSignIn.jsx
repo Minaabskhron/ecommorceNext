@@ -46,7 +46,9 @@ const SignUpSignIn = () => {
             </span>
           </div>
           <div className="relative ms-5">
-            <Cart />
+            <Link href="/cart">
+              <Cart />
+            </Link>
             <span className="absolute top-0 py-[3px] text-[9px] text-white -left-1 px-[5px] bg-red-500 rounded-lg">
               0
             </span>

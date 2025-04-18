@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Star from "../_svg/Star";
 import AddToWishlist from "./AddToWishlist";
+import AddToCart from "./AddToCart";
 
 const Product = ({ product }) => {
   return (
@@ -47,14 +48,7 @@ const Product = ({ product }) => {
       </Link>
       <div className="ps-2 pt-3 flex items-center justify-between">
         <div className="relative">
-          <button
-            className="bg-green-700 text-white px-20 py-2 rounded-xl 
-          opacity-0 translate-y-4 transition-all duration-300 
-          group-hover:opacity-100 group-hover:translate-y-0 cursor-pointer
-          hover:bg-green-900"
-          >
-            Add to cart
-          </button>
+          <AddToCart id={product._id} />
         </div>
         <AddToWishlist id={product._id} />
       </div>

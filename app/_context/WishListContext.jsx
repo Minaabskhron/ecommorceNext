@@ -1,7 +1,13 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { baseUrl } from "../_lib/const";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +24,7 @@ const WishListProvider = ({ children }) => {
 
   const token = session?.accessToken;
 
-  const getWishList = async () => {
+  const getWishList = useCallback(async () => {
     if (!token) {
       throw new Error("User is not authenticated");
     }
@@ -36,7 +42,7 @@ const WishListProvider = ({ children }) => {
     } catch (error) {
       console.error("Error loading wishlist:", error.message);
     }
-  };
+  });
 
   useEffect(() => {
     if (status === "authenticated") getWishList();
