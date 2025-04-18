@@ -8,11 +8,13 @@ import Cart from "../_svg/Cart";
 import { useEffect, useRef, useState } from "react";
 import { signOut } from "next-auth/react";
 import { useWishList } from "../_context/WishListContext";
+import { useCart } from "../_context/CartContext";
 
 const SignUpSignIn = () => {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const { wishList } = useWishList();
+  const { cartList } = useCart();
 
   const menuRef = useRef(null);
 
@@ -50,7 +52,7 @@ const SignUpSignIn = () => {
               <Cart />
             </Link>
             <span className="absolute top-0 py-[3px] text-[9px] text-white -left-1 px-[5px] bg-red-500 rounded-lg">
-              0
+              {cartList?.length}
             </span>
           </div>
           <div>

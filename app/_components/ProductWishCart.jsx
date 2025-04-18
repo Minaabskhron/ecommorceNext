@@ -3,28 +3,40 @@
 import Image from "next/image";
 import Trash from "../_svg/Trash";
 import LoadingSvg from "../_svg/LoadingSvg";
+import Link from "next/link";
 
-const ProductWishCart = ({
-  list,
-  stateId,
-  removeProduct,
-  loading,
-  remain,
-  cart,
-}) => {
+const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
   return (
     <div>
       {list?.length === 0 ? (
         <>
-          <div className="flex justify-center items-center py-20">
-            <p className="text-5xl font-semibold">Your Wishlist Is Empty</p>
+          <div
+            className={`${
+              cart
+                ? "flex-col text-center gap-20"
+                : "justify-center items-center py-20"
+            } flex`}
+          >
+            <p className="text-5xl font-semibold">
+              {cart ? "Your Cart Is Empty" : "Your Wishlist Is Empty"}
+            </p>
+            {cart ? (
+              <Link
+                className="w-full bg-green-700 rounded-lg py-2 mb-20 text-white cursor-pointer hover:bg-green-800"
+                href={"/products"}
+              >
+                Go To Shopping
+              </Link>
+            ) : (
+              ""
+            )}
           </div>
         </>
       ) : (
         <>
           {list?.map((product) => (
             <div
-              key={cart ? product.product._id : product._id}
+              key={cart ? product.product.id : product._id}
               className="shadow-xl mb-5 p-5"
             >
               <div className="flex items-center">
@@ -47,17 +59,20 @@ const ProductWishCart = ({
                     <p className="text-green-600 font-semibold">
                       {product.price} EGP
                     </p>
-                    {stateId === product._id && loading ? (
+                    {loading &&
+                    (cart
+                      ? stateId === product?.product?.id
+                      : stateId === product._id) ? (
                       <div className="mt-2">
-                        <LoadingSvg />
+                        <LoadingSvg color={"text-red-500"} />
                       </div>
                     ) : (
                       <button
                         className="text-red-500 cursor-pointer mt-2"
                         onClick={() => {
-                          console.log(product?.[remain]?._id);
-
-                          removeProduct(product._id);
+                          removeProduct(
+                            cart ? product.product.id : product._id
+                          );
                         }}
                       >
                         <div className="flex">

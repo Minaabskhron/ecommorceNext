@@ -17,10 +17,14 @@ const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const { data: session, status } = useSession();
   const [cartList, setCartList] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [stateId, setStateId] = useState(null);
 
   const token = session?.accessToken;
 
   const addToCart = async (id) => {
+    setLoading(true);
+    setStateId(id);
     if (!token) {
       router.push("/signin");
       return;
@@ -32,7 +36,12 @@ const CartProvider = ({ children }) => {
         body: JSON.stringify({ productId: id }),
       });
       const data = await res.json();
-    } catch (error) {}
+      await getCart();
+    } catch (error) {
+    } finally {
+      setLoading(false);
+      setStateId(null);
+    }
   };
 
   const getCart = useCallback(async () => {
@@ -47,16 +56,39 @@ const CartProvider = ({ children }) => {
       });
 
       const data = await res.json();
-      setCartList(data);
+      setCartList(data?.data?.products);
     } catch (error) {}
   });
   useEffect(() => {
     if (status === "authenticated") getCart();
   }, [status]);
 
+  const removeProduct = async (id) => {
+    setLoading(true);
+    setStateId(id);
+    if (!token) {
+      router.push("/signin");
+      return;
+    }
+
+    try {
+      const res = await fetch(`${baseUrl}/api/v1/cart/${id}`, {
+        method: "DELETE",
+        headers: { token },
+      });
+      const data = await res.json();
+      setCartList(data?.data?.products);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     //hna alvalues aly 3aizen ntl3ha
-    <CartContext.Provider value={{ addToCart, cartList }}>
+    <CartContext.Provider
+      value={{ addToCart, cartList, loading, stateId, removeProduct }}
+    >
       {children}
     </CartContext.Provider>
   );
