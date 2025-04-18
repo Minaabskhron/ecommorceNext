@@ -10,16 +10,16 @@ const WishListProvider = ({ children }) => {
   const { data: session, status } = useSession();
   const [wishList, setWishList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState(null);
+
   const [error, setError] = useState(null);
   const [stateId, setStateId] = useState(null);
 
+  const token = session?.accessToken;
   const getWishList = async () => {
+    if (!token) {
+      throw new Error("User is not authenticated");
+    }
     try {
-      const token = session?.accessToken;
-      setToken(token);
-      if (!token) throw new Error("User is not authenticated");
-
       const WishlistRes = await fetch(`${baseUrl}/api/v1/wishlist`, {
         headers: { token },
       });
@@ -39,10 +39,42 @@ const WishListProvider = ({ children }) => {
     if (status === "authenticated") getWishList();
   }, [status]);
 
-  const sendWishList = async (id) => {
+  const removeProduct = async (id) => {
+    setLoading(true);
+    setStateId(id);
     try {
-      setStateId(id);
-      setLoading(true);
+      const res = await fetch(`${baseUrl}/api/v1/wishlist/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json", token },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to remove product");
+
+      setWishList((prev) => ({
+        ...prev,
+        data: prev.data.filter((item) => item._id !== id), //creates a new data array where the product with the given id is removed.
+      }));
+    } catch (error) {
+      console.error("Error removing Product", error.message);
+    } finally {
+      setStateId(null);
+      setLoading(false);
+    }
+  };
+
+  const sendWishList = async (id) => {
+    setStateId(id);
+    setLoading(true);
+    const isInWishList = wishList?.data?.some((product) => product._id === id);
+
+    if (isInWishList) {
+      await removeProduct(id);
+      return;
+    }
+
+    try {
       const res = await fetch(`${baseUrl}/api/v1/wishlist`, {
         method: "POST",
         headers: {
@@ -53,16 +85,12 @@ const WishListProvider = ({ children }) => {
       });
 
       const data = await res.json();
-      setWishList(data);
-
-      if (!res.ok) {
-        setLoading(false);
+      if (!res.ok)
         throw new Error(
           data.message || "can't add it to the wishlist try again later"
         );
-      }
+      await getWishList();
     } catch (err) {
-      console.log(err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -73,7 +101,13 @@ const WishListProvider = ({ children }) => {
   return (
     //hna alvalues aly 3aizen ntl3ha
     <WishListContext.Provider
-      value={{ wishList, setWishList, sendWishList, loading, stateId }}
+      value={{
+        wishList,
+        sendWishList,
+        loading,
+        stateId,
+        removeProduct,
+      }}
     >
       {children}
     </WishListContext.Provider>
