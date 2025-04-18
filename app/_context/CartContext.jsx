@@ -84,10 +84,34 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const UpdateQuantity = async (id, count) => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${baseUrl}/api/v1/cart/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", token },
+        body: JSON.stringify({ count }),
+      });
+      const data = await res.json();
+      setCartList(data.data.products);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     //hna alvalues aly 3aizen ntl3ha
     <CartContext.Provider
-      value={{ addToCart, cartList, loading, stateId, removeProduct }}
+      value={{
+        addToCart,
+        cartList,
+        loading,
+        stateId,
+        removeProduct,
+        UpdateQuantity,
+      }}
     >
       {children}
     </CartContext.Provider>
