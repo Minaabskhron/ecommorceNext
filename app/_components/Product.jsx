@@ -50,7 +50,9 @@ const Product = ({ product }) => {
         <div className="relative w-full me-8">
           <AddToCart id={product._id} disabled={"disabled"} moving={"moving"} />
         </div>
-        <AddToWishlist id={product._id} />
+        <div className="min-w-[30px] min-h-[30px] flex justify-center items-center">
+          <AddToWishlist id={product._id} />
+        </div>
       </div>
     </div>
   );
