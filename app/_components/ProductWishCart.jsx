@@ -9,12 +9,7 @@ import { useEffect, useState } from "react";
 import AddToCart from "./AddToCart";
 
 const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
-  const { UpdateQuantity, cartList } = useCart();
-  const [clicked, setClicked] = useState(false);
-
-  useEffect(() => {
-    if (!loading && clicked) setClicked(false);
-  }, [clicked, loading]);
+  const { UpdateQuantity, cartList, removeProductLoading } = useCart();
 
   const totalPrice = cartList?.reduce(
     (acc, product) =>
@@ -93,7 +88,7 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                       (cart
                         ? stateId === product?.product?.id
                         : stateId === product._id) &&
-                      clicked ? (
+                      removeProductLoading ? (
                         <div className="mt-2">
                           <LoadingSvg color={"text-red-500"} />
                         </div>
@@ -104,7 +99,6 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                             removeProduct(
                               cart ? product.product.id : product._id
                             );
-                            setClicked(true);
                           }}
                         >
                           <div className="flex">
