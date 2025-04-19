@@ -9,6 +9,7 @@ import {
 } from "react";
 import { baseUrl } from "../_lib/const";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 //1-asm alcontext capital
 const CartContext = createContext();
@@ -19,6 +20,7 @@ const CartProvider = ({ children }) => {
   const [cartList, setCartList] = useState(null);
   const [loading, setLoading] = useState(false);
   const [stateId, setStateId] = useState(null);
+  const router = useRouter();
 
   const token = session?.accessToken;
 
@@ -38,6 +40,7 @@ const CartProvider = ({ children }) => {
       const data = await res.json();
       await getCart();
     } catch (error) {
+      console.error("Cart Error:", error);
     } finally {
       setLoading(false);
       setStateId(null);
@@ -57,11 +60,13 @@ const CartProvider = ({ children }) => {
 
       const data = await res.json();
       setCartList(data?.data?.products);
-    } catch (error) {}
+    } catch (error) {
+      console.error("Cart Error:", error);
+    }
   });
   useEffect(() => {
     if (status === "authenticated") getCart();
-  }, [status]);
+  }, [status, token]);
 
   const removeProduct = async (id) => {
     setLoading(true);
@@ -79,6 +84,7 @@ const CartProvider = ({ children }) => {
       const data = await res.json();
       setCartList(data?.data?.products);
     } catch (error) {
+      console.error("Cart Error:", error);
     } finally {
       setLoading(false);
     }
@@ -95,7 +101,7 @@ const CartProvider = ({ children }) => {
       const data = await res.json();
       setCartList(data.data.products);
     } catch (error) {
-      console.log(error);
+      console.error("Cart Error:", error);
     } finally {
       setLoading(false);
     }
@@ -112,6 +118,7 @@ const CartProvider = ({ children }) => {
       const data = await res.json();
       setCartList(null);
     } catch (error) {
+      console.error("Cart Error:", error);
     } finally {
       setLoading(false);
     }

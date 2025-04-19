@@ -46,7 +46,7 @@ const WishListProvider = ({ children }) => {
 
   useEffect(() => {
     if (status === "authenticated") getWishList();
-  }, [status]);
+  }, [status, token]);
 
   const removeProduct = async (id) => {
     setLoading(true);
