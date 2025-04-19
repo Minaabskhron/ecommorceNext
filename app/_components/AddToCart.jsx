@@ -2,7 +2,6 @@
 
 import { useCart } from "../_context/CartContext";
 import LoadingSvg from "../_svg/LoadingSvg";
-4;
 
 const styles = {
   moving:
@@ -20,27 +19,23 @@ const AddToCart = ({
   singleProduct,
   wishListProduct,
 }) => {
-  const { addToCart, loading, stateId } = useCart();
+  const { addToCart, loadingStates } = useCart();
 
   return (
     <button
-      disabled={loading && stateId === id}
+      disabled={loadingStates[id]}
       onClick={() => {
         addToCart(id);
       }}
       className={`${
-        loading && stateId === id
+        loadingStates[id]
           ? styles[disabled]
           : styles[moving] || styles[singleProduct] || styles[wishListProduct]
       }  bg-green-700 text-white  rounded-xl 
      cursor-pointer 
     hover:bg-green-900 w-full min-h-[40px]`}
     >
-      {loading && stateId === id ? (
-        <LoadingSvg color={"text-white"} />
-      ) : (
-        "Add to cart"
-      )}
+      {loadingStates[id] ? <LoadingSvg color={"text-white"} /> : "Add to cart"}
     </button>
   );
 };

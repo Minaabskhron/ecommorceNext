@@ -16,18 +16,22 @@ const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const { data: session, status } = useSession();
   const [cartList, setCartList] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [stateId, setStateId] = useState(null);
-  const [clearCartLoading, setClearCartLoading] = useState(false);
-  const [removeProductLoading, setRemoveProductLoading] = useState(false);
+
+  const [loadingStates, setLoadingStates] = useState({});
+
+  const setLoading = (productId, isLoading) => {
+    setLoadingStates((prev) => ({
+      ...prev,
+      [productId]: isLoading,
+    }));
+  };
 
   const router = useRouter();
 
   const token = session?.accessToken;
 
   const fetchCart = useCallback(
-    async (url, options, loadingSetter = () => {}, getCartfetch) => {
-      loadingSetter(true);
+    async (url, options, getCartfetch) => {
       try {
         const res = await fetch(url, options);
         const data = await res.json();
@@ -35,18 +39,15 @@ const CartProvider = ({ children }) => {
       } catch (error) {
         console.error(error);
       } finally {
-        loadingSetter(false);
-        setStateId(null);
+        // setLoading(productId, false);
       }
     },
     [token]
   );
 
   const addToCart = async (id) => {
-    setStateId(id);
+    setLoading(id, true);
     if (!token) {
-      setStateId(null);
-      setLoading(false);
       router.push("/signin");
       return;
     }
@@ -57,9 +58,10 @@ const CartProvider = ({ children }) => {
         headers: { "Content-Type": "application/json", token },
         body: JSON.stringify({ productId: id }),
       },
-      setLoading,
+
       getCart
     );
+    setLoading(id, false);
   };
 
   const getCart = useCallback(async () => {
@@ -82,37 +84,25 @@ const CartProvider = ({ children }) => {
       return;
     }
 
-    await fetchCart(
-      `${baseUrl}/api/v1/cart/${id}`,
-      {
-        method: "DELETE",
-        headers: { token },
-      },
-      setRemoveProductLoading
-    );
+    await fetchCart(`${baseUrl}/api/v1/cart/${id}`, {
+      method: "DELETE",
+      headers: { token },
+    });
   };
 
   const UpdateQuantity = async (id, count) => {
-    fetchCart(
-      `${baseUrl}/api/v1/cart/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", token },
-        body: JSON.stringify({ count }),
-      },
-      setLoading
-    );
+    fetchCart(`${baseUrl}/api/v1/cart/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", token },
+      body: JSON.stringify({ count }),
+    });
   };
 
   const removeCart = async () => {
-    await fetchCart(
-      `${baseUrl}/api/v1/cart`,
-      {
-        method: "DELETE",
-        headers: { token },
-      },
-      setClearCartLoading
-    );
+    await fetchCart(`${baseUrl}/api/v1/cart`, {
+      method: "DELETE",
+      headers: { token },
+    });
   };
 
   return (
@@ -120,13 +110,10 @@ const CartProvider = ({ children }) => {
       value={{
         addToCart,
         cartList,
-        loading,
-        stateId,
         removeProduct,
         UpdateQuantity,
         removeCart,
-        clearCartLoading,
-        removeProductLoading,
+        loadingStates,
       }}
     >
       {children}
