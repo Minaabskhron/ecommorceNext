@@ -52,7 +52,7 @@ const SignUpSignIn = () => {
               <Cart />
             </Link>
             <span className="absolute top-0 py-[3px] text-[9px] text-white -left-1 px-[5px] bg-red-500 rounded-lg">
-              {cartList?.length}
+              {cartList?.length || 0}
             </span>
           </div>
           <div>

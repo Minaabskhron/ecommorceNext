@@ -101,6 +101,22 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const removeCart = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${baseUrl}/api/v1/cart`, {
+        method: "DELETE",
+        headers: { token },
+      });
+
+      const data = await res.json();
+      setCartList(null);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     //hna alvalues aly 3aizen ntl3ha
     <CartContext.Provider
@@ -111,6 +127,7 @@ const CartProvider = ({ children }) => {
         stateId,
         removeProduct,
         UpdateQuantity,
+        removeCart,
       }}
     >
       {children}

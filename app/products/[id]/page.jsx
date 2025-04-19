@@ -2,6 +2,7 @@ import Heart from "@/app/_svg/Heart";
 import Star from "@/app/_svg/Star";
 import { baseUrl } from "@/app/_lib/const";
 import Image from "next/image";
+import AddToCart from "@/app/_components/AddToCart";
 
 const page = async ({ params }) => {
   const { id } = await params;
@@ -35,9 +36,11 @@ const page = async ({ params }) => {
           <Heart fill={"none"} color={"text-red-500"} />
         </div>
         <div className="pt-5">
-          <button className="w-full bg-green-700 rounded-lg py-2 text-white cursor-pointer hover:bg-green-800">
-            Add to cart
-          </button>
+          <AddToCart
+            id={id}
+            singleProduct="singleProduct"
+            disabled={"disabled"}
+          />
         </div>
       </div>
     </div>

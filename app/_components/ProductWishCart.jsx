@@ -5,13 +5,24 @@ import Trash from "../_svg/Trash";
 import LoadingSvg from "../_svg/LoadingSvg";
 import Link from "next/link";
 import { useCart } from "../_context/CartContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
-  const { UpdateQuantity } = useCart();
+  const { UpdateQuantity, cartList } = useCart();
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    if (!loading && clicked) setClicked(false);
+  }, [clicked, loading]);
+
+  const totalPrice = cartList?.reduce(
+    (acc, product) =>
+      Number(acc) + Number(product?.count) * Number(product?.price),
+    0
+  );
   return (
     <div>
-      {list?.length === 0 ? (
+      {list?.length === 0 || !list ? (
         <>
           <div
             className={`${
@@ -23,20 +34,34 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
             <p className="text-5xl font-semibold">
               {cart ? "Your Cart Is Empty" : "Your Wishlist Is Empty"}
             </p>
-            {cart ? (
+            {cart && (
               <Link
                 className="w-full bg-green-700 rounded-lg py-2 mb-20 text-white cursor-pointer hover:bg-green-800"
                 href={"/products"}
               >
                 Go To Shopping
               </Link>
-            ) : (
-              ""
             )}
           </div>
         </>
       ) : (
         <>
+          {cart && list && (
+            <div className="flex justify-between text-gray-500 text-2xl">
+              <p>
+                Total price:
+                <span className="text-green-600 font-semibold ms-2">
+                  {totalPrice}
+                </span>
+              </p>
+              <p>
+                Total Number of Items
+                <span className="text-green-600 font-semibold ms-2">
+                  {cartList?.length}
+                </span>
+              </p>
+            </div>
+          )}
           {list?.map((product) => {
             return (
               <div
@@ -66,7 +91,8 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                       {loading &&
                       (cart
                         ? stateId === product?.product?.id
-                        : stateId === product._id) ? (
+                        : stateId === product._id) &&
+                      clicked ? (
                         <div className="mt-2">
                           <LoadingSvg color={"text-red-500"} />
                         </div>
@@ -77,6 +103,7 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                             removeProduct(
                               cart ? product.product.id : product._id
                             );
+                            setClicked(true);
                           }}
                         >
                           <div className="flex">
@@ -88,37 +115,39 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                     </div>
 
                     {cart ? (
-                      <div className="flex gap-3 justify-center items-center">
-                        <button
-                          disabled={loading}
-                          className=" rounded-lg px-3 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
+                      <>
+                        <div className="flex gap-3 justify-center items-center">
+                          <button
+                            disabled={loading}
+                            className=" rounded-lg px-3 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
                           disabled:opacity-75 
                           disabled:cursor-not-allowed
                          hover:bg-green-600 hover:text-white transition-all duration-200"
-                          onClick={() => {
-                            const quantity = product.count + 1;
-                            UpdateQuantity(product.product._id, quantity);
-                          }}
-                        >
-                          +
-                        </button>
-                        <p className="font-semibold">{product.count}</p>
-                        <button
-                          disabled={loading}
-                          className="rounded-lg px-3.5 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
+                            onClick={() => {
+                              const quantity = product.count + 1;
+                              UpdateQuantity(product.product._id, quantity);
+                            }}
+                          >
+                            +
+                          </button>
+                          <p className="font-semibold">{product.count}</p>
+                          <button
+                            disabled={loading}
+                            className="rounded-lg px-3.5 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
                            disabled:opacity-75 
                           disabled:cursor-not-allowed
                        hover:bg-green-600 hover:text-white transition-all duration-200"
-                          onClick={() => {
-                            if (product.count === 1)
-                              removeProduct(product.product._id);
-                            const quantity = product.count - 1;
-                            UpdateQuantity(product.product._id, quantity);
-                          }}
-                        >
-                          -
-                        </button>
-                      </div>
+                            onClick={() => {
+                              if (product.count === 1)
+                                removeProduct(product.product._id);
+                              const quantity = product.count - 1;
+                              UpdateQuantity(product.product._id, quantity);
+                            }}
+                          >
+                            -
+                          </button>
+                        </div>
+                      </>
                     ) : (
                       <button
                         className="bg-green-700 text-white px-4 py-2 rounded-xl 
@@ -132,6 +161,13 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
               </div>
             );
           })}
+          {cart && list && (
+            <div className="flex flex-col">
+              <button className="bg-green-700 rounded-lg py-2 mb-20 mt-3 text-white cursor-pointer hover:bg-green-800">
+                checkout
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

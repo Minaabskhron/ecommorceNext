@@ -47,8 +47,8 @@ const Product = ({ product }) => {
         </div>
       </Link>
       <div className="ps-2 pt-3 flex items-center justify-between">
-        <div className="relative">
-          <AddToCart id={product._id} />
+        <div className="relative w-full me-8">
+          <AddToCart id={product._id} disabled={"disabled"} moving={"moving"} />
         </div>
         <AddToWishlist id={product._id} />
       </div>

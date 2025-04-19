@@ -2,8 +2,17 @@
 
 import { useCart } from "../_context/CartContext";
 import LoadingSvg from "../_svg/LoadingSvg";
+4;
 
-const AddToCart = ({ id }) => {
+const styles = {
+  moving:
+    "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 px-20 py-2 ",
+  disabled:
+    "disabled:cursor-not-allowed disabled:opacity-75 flex justify-center  min-h-[40px] px-20 py-2 ",
+  singleProduct: "py-2",
+};
+
+const AddToCart = ({ id, moving, disabled, singleProduct }) => {
   const { addToCart, loading, stateId } = useCart();
 
   return (
@@ -14,11 +23,11 @@ const AddToCart = ({ id }) => {
       }}
       className={`${
         loading && stateId === id
-          ? "disabled:cursor-not-allowed disabled:opacity-75 "
-          : "opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
-      }  bg-green-700 text-white px-20 py-2 rounded-xl 
-     cursor-pointer flex justify-center
-    hover:bg-green-900 min-w-[250px] min-h-[40px] `}
+          ? styles[disabled]
+          : styles[moving] || styles[singleProduct]
+      }  bg-green-700 text-white  rounded-xl 
+     cursor-pointer 
+    hover:bg-green-900 w-full`}
     >
       {loading && stateId === id ? (
         <LoadingSvg color={"text-white"} />
