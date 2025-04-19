@@ -6,6 +6,7 @@ import LoadingSvg from "../_svg/LoadingSvg";
 import Link from "next/link";
 import { useCart } from "../_context/CartContext";
 import { useEffect, useState } from "react";
+import AddToCart from "./AddToCart";
 
 const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
   const { UpdateQuantity, cartList } = useCart();
@@ -149,12 +150,13 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                         </div>
                       </>
                     ) : (
-                      <button
-                        className="bg-green-700 text-white px-4 py-2 rounded-xl 
-                transition-all duration-300 cursor-pointer hover:bg-green-900"
-                      >
-                        Add to Cart
-                      </button>
+                      <div className="min-w-[113.75px] min-h-[40px] flex items-center">
+                        <AddToCart
+                          id={product._id}
+                          wishListProduct={"wishListProduct"}
+                          disabled={"disabled"}
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
