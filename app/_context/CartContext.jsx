@@ -93,11 +93,15 @@ const CartProvider = ({ children }) => {
   };
 
   const UpdateQuantity = async (id, count) => {
-    fetchCart(`${baseUrl}/api/v1/cart/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json", token },
-      body: JSON.stringify({ count }),
-    });
+    fetchCart(
+      `${baseUrl}/api/v1/cart/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", token },
+        body: JSON.stringify({ count }),
+      },
+      setLoading
+    );
   };
 
   const removeCart = async () => {

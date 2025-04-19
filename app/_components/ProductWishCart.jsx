@@ -5,7 +5,6 @@ import Trash from "../_svg/Trash";
 import LoadingSvg from "../_svg/LoadingSvg";
 import Link from "next/link";
 import { useCart } from "../_context/CartContext";
-import { useEffect, useState } from "react";
 import AddToCart from "./AddToCart";
 
 const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
