@@ -55,7 +55,7 @@ const ProductWishCart = ({
           <p>
             Total price:
             <span className="text-green-600 font-semibold ms-2">
-              {totalPrice}
+              {totalPrice} EGP
             </span>
           </p>
           <p>
@@ -77,10 +77,13 @@ const ProductWishCart = ({
         />
       ))}
       {cart && list && (
-        <div className="flex flex-col">
-          <button className="bg-green-700 rounded-lg py-2 mb-20 mt-3 text-white cursor-pointer hover:bg-green-800">
+        <div className="flex text-center">
+          <Link
+            href="/checkout"
+            className="bg-green-700 w-full rounded-lg py-2 mb-20 mt-3 text-white cursor-pointer hover:bg-green-800"
+          >
             checkout
-          </button>
+          </Link>
         </div>
       )}
     </>

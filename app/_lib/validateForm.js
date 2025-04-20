@@ -21,6 +21,12 @@ export const validateField = (fieldName, value, formData) => {
       if (!value.trim()) return "Please confirm password";
       if (value !== formData.password) return "Passwords must match";
       break;
+    case "city":
+      if (!value.trim()) return "city is required";
+      break;
+    case "details":
+      if (!value.trim()) return "details is required";
+      break;
     default:
       return "";
   }
