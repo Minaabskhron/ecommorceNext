@@ -5,7 +5,7 @@ const Trash = () => {
       fill="currentColor"
       strokeWidth="0"
       viewBox="0 0 24 24"
-      className="text-[20px] cursor-pointer text-1xl text-red-600 relative top-[2px] mr-1"
+      className="text-[20px] pb-1 cursor-pointer text-1xl text-red-600 relative top-[2px] mr-1"
       height="1em"
       width="1em"
       xmlns="http://www.w3.org/2000/svg"

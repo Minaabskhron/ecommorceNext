@@ -7,8 +7,8 @@ import Link from "next/link";
 import { useCart } from "../_context/CartContext";
 import AddToCart from "./AddToCart";
 
-const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
-  const { UpdateQuantity, cartList, removeProductLoading } = useCart();
+const ProductWishCart = ({ list, removeProduct, cart }) => {
+  const { UpdateQuantity, cartList, loadingStates, normalLoading } = useCart();
 
   const totalPrice = cartList?.reduce(
     (acc, product) =>
@@ -83,36 +83,35 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                       <p className="text-green-600 font-semibold">
                         {product.price} EGP
                       </p>
-                      {loading &&
-                      (cart
-                        ? stateId === product?.product?.id
-                        : stateId === product._id) &&
-                      removeProductLoading ? (
-                        <div className="mt-2">
-                          <LoadingSvg color={"text-red-500"} />
-                        </div>
-                      ) : (
-                        <button
-                          className="text-red-500 cursor-pointer mt-2"
-                          onClick={() => {
-                            removeProduct(
-                              cart ? product.product.id : product._id
-                            );
-                          }}
-                        >
-                          <div className="flex">
-                            <Trash />
-                            Remove
+                      <div className="min-w-[116.26px] min-h-[35.2px] mt-2">
+                        {loadingStates[product?.product?.id] &&
+                        normalLoading ? (
+                          <div className="flex items-center">
+                            <LoadingSvg color={"text-red-500"} />
                           </div>
-                        </button>
-                      )}
+                        ) : (
+                          <button
+                            className="text-red-500 cursor-pointer mt-2"
+                            onClick={() => {
+                              removeProduct(
+                                cart ? product.product.id : product._id
+                              );
+                            }}
+                          >
+                            <div className="flex">
+                              <Trash />
+                              <p>Remove</p>
+                            </div>
+                          </button>
+                        )}
+                      </div>
                     </div>
 
                     {cart ? (
                       <>
                         <div className="flex gap-3 justify-center items-center">
                           <button
-                            disabled={loading}
+                            disabled={loadingStates[product?.product?._id]}
                             className=" rounded-lg px-3 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
                           disabled:opacity-75 
                           disabled:cursor-not-allowed
@@ -126,7 +125,7 @@ const ProductWishCart = ({ list, stateId, removeProduct, loading, cart }) => {
                           </button>
                           <p className="font-semibold">{product.count}</p>
                           <button
-                            disabled={loading}
+                            disabled={loadingStates[product?.product?.id]}
                             className="rounded-lg px-3.5 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
                            disabled:opacity-75 
                           disabled:cursor-not-allowed

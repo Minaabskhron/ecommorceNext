@@ -17,7 +17,7 @@ const AddToWishlist = ({ id }) => {
       }}
     >
       {stateId === id && loading ? (
-        <LoadingSvg />
+        <LoadingSvg color={"text-red-500"} />
       ) : isInWishList ? (
         <HeartFiled />
       ) : (

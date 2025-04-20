@@ -7,10 +7,9 @@ const page = () => {
   const {
     cartList,
     removeProduct,
-    loading,
-    stateId,
+    loadingStates,
     removeCart,
-    clearCartLoading,
+    normalLoading,
   } = useCart();
   return (
     <div className="mx-30 pt-10">
@@ -25,7 +24,7 @@ const page = () => {
             min-w-[85.61px] min-h-[41px] flex justify-center items-center"
             onClick={removeCart}
           >
-            {clearCartLoading ? <LoadingSvg /> : "clear all"}
+            {normalLoading ? <LoadingSvg /> : "clear all"}
           </button>
         )}
       </div>
@@ -33,28 +32,8 @@ const page = () => {
         list={cartList}
         cart={"cart"}
         removeProduct={removeProduct}
-        loading={loading}
-        stateId={stateId}
+        loadingStates={loadingStates}
       />
-      {/* {cartList?.data?.products?.length === 0 ? (
-        <div className="flex flex-col text-center">
-          <h2 className="text-5xl font-semibold my-20">Your Cart Is Empty</h2>
-          <Link
-            className="w-full bg-green-700 rounded-lg py-2 mb-20 text-white cursor-pointer hover:bg-green-800"
-            href={"/products"}
-          >
-            Go To Shopping
-          </Link>
-        </div>
-      ) : (
-        <>
-          {cartList?.data.products.map((product) => (
-            <div key={product.product._id}>
-              <p>{product.product.title.split(" ").slice(0, 4).join(" ")}</p>
-            </div>
-          ))}
-        </>
-      )} */}
     </div>
   );
 };

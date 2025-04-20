@@ -26,6 +26,8 @@ const CartProvider = ({ children }) => {
     }));
   };
 
+  const [normalLoading, setNormalLoading] = useState(false);
+
   const router = useRouter();
 
   const token = session?.accessToken;
@@ -79,6 +81,8 @@ const CartProvider = ({ children }) => {
   }, [status, getCart]);
 
   const removeProduct = async (id) => {
+    setLoading(id, true);
+    setNormalLoading(true);
     if (!token) {
       router.push("/signin");
       return;
@@ -88,21 +92,27 @@ const CartProvider = ({ children }) => {
       method: "DELETE",
       headers: { token },
     });
+    setLoading(id, false);
+    setNormalLoading(false);
   };
 
   const UpdateQuantity = async (id, count) => {
-    fetchCart(`${baseUrl}/api/v1/cart/${id}`, {
+    setLoading(id, true);
+    await fetchCart(`${baseUrl}/api/v1/cart/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", token },
       body: JSON.stringify({ count }),
     });
+    setLoading(id, false);
   };
 
   const removeCart = async () => {
+    setNormalLoading(true);
     await fetchCart(`${baseUrl}/api/v1/cart`, {
       method: "DELETE",
       headers: { token },
     });
+    setNormalLoading(false);
   };
 
   return (
@@ -114,6 +124,7 @@ const CartProvider = ({ children }) => {
         UpdateQuantity,
         removeCart,
         loadingStates,
+        normalLoading,
       }}
     >
       {children}
