@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
           <CartProvider>
             <WishListProvider>
               <NavBar />
-              <div className="mt-15 p-5">
+              <div className="mt-25 ms-2 p-5">
                 <div>{children}</div>
               </div>
               <Footer />

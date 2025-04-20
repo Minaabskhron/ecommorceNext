@@ -12,6 +12,9 @@ const page = async () => {
 
   return (
     <>
+      <h1 className="text-3xl font-semibold mb-10 text-gray-500">
+        Most selling products
+      </h1>
       <div className="grid grid-cols-4 gap-8">
         {products.map((product) => (
           <div className="rounded-xl shadow-xl " key={product._id}>
