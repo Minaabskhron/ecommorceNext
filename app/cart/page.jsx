@@ -35,6 +35,7 @@ const page = () => {
         cart={"cart"}
         removeProduct={removeProduct}
         loadingStates={loadingStates}
+        normalLoading={normalLoading}
       />
     </div>
   );
