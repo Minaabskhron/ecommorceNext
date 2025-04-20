@@ -3,6 +3,7 @@ import Star from "@/app/_svg/Star";
 import { baseUrl } from "@/app/_lib/const";
 import Image from "next/image";
 import AddToCart from "@/app/_components/AddToCart";
+import AddToWishlist from "@/app/_components/AddToWishlist";
 
 const page = async ({ params }) => {
   const { id } = await params;
@@ -33,7 +34,7 @@ const page = async ({ params }) => {
             <Star />
             <p>{data.ratingsAverage}</p>
           </div>
-          <Heart fill={"none"} color={"text-red-500"} />
+          <AddToWishlist id={id} />
         </div>
         <div className="pt-5">
           <AddToCart
