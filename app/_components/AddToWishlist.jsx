@@ -6,7 +6,7 @@ import { useWishList } from "../_context/WishListContext";
 import HeartFiled from "../_svg/HeartFiled";
 
 const AddToWishlist = ({ id }) => {
-  const { sendWishList, loading, stateId, wishList } = useWishList();
+  const { sendWishList, normalLoading, stateId, wishList } = useWishList();
 
   const isInWishList = wishList?.data?.some((item) => item._id === id);
 
@@ -16,7 +16,7 @@ const AddToWishlist = ({ id }) => {
         sendWishList(id);
       }}
     >
-      {stateId === id && loading ? (
+      {stateId === id && normalLoading ? (
         <LoadingSvg color={"text-red-500"} />
       ) : isInWishList ? (
         <HeartFiled />

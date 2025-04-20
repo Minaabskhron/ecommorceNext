@@ -3,7 +3,8 @@ import ProductWishCart from "../_components/ProductWishCart";
 import { useWishList } from "../_context/WishListContext";
 
 const page = () => {
-  const { wishList, stateId, loading, removeProduct } = useWishList();
+  const { wishList, stateId, normalLoading, removeProduct, loadingStates } =
+    useWishList();
 
   return (
     <div className="mx-30">
@@ -15,7 +16,8 @@ const page = () => {
           list={wishList?.data}
           stateId={stateId}
           removeProduct={removeProduct}
-          loading={loading}
+          normalLoading={normalLoading}
+          loadingStates={loadingStates}
         />
       </div>
     </div>

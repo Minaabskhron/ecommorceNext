@@ -4,13 +4,9 @@ import ProductWishCart from "../_components/ProductWishCart";
 import LoadingSvg from "../_svg/LoadingSvg";
 
 const page = () => {
-  const {
-    cartList,
-    removeProduct,
-    loadingStates,
-    removeCart,
-    normalLoading,
-  } = useCart();
+  const { cartList, removeProduct, loadingStates, removeCart, normalLoading } =
+    useCart();
+
   return (
     <div className="mx-30 pt-10">
       <div className="flex justify-between items-center">
@@ -22,9 +18,15 @@ const page = () => {
             className="bg-red-500 text-white py-2 px-4 rounded-lg
             cursor-pointer hover:bg-red-700 transition-all duration-200
             min-w-[85.61px] min-h-[41px] flex justify-center items-center"
-            onClick={removeCart}
+            onClick={() => {
+              removeCart();
+            }}
           >
-            {normalLoading ? <LoadingSvg /> : "clear all"}
+            {normalLoading && Object.values(loadingStates)[0] === false ? (
+              <LoadingSvg />
+            ) : (
+              "clear all"
+            )}
           </button>
         )}
       </div>

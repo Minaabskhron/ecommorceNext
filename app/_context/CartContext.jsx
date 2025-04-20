@@ -19,7 +19,7 @@ const CartProvider = ({ children }) => {
 
   const [loadingStates, setLoadingStates] = useState({});
 
-  const setLoading = (productId, isLoading) => {
+  const setLoading = (productId, isLoading = false) => {
     setLoadingStates((prev) => ({
       ...prev,
       [productId]: isLoading,
@@ -40,8 +40,6 @@ const CartProvider = ({ children }) => {
         getCartfetch ? getCartfetch() : setCartList(data?.data?.products ?? []);
       } catch (error) {
         console.error(error);
-      } finally {
-        // setLoading(productId, false);
       }
     },
     [token]

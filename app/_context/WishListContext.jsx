@@ -18,9 +18,18 @@ const WishListProvider = ({ children }) => {
 
   const { data: session, status } = useSession();
   const [wishList, setWishList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [normalLoading, setNormalLoading] = useState(false);
   const [error, setError] = useState(null);
   const [stateId, setStateId] = useState(null);
+
+  const [loadingStates, setLoadingStates] = useState({});
+
+  const setLoadingId = (productId, isLoading = false) => {
+    setLoadingStates((prev) => ({
+      ...prev,
+      [productId]: isLoading,
+    }));
+  };
 
   const token = session?.accessToken;
 
@@ -49,8 +58,9 @@ const WishListProvider = ({ children }) => {
   }, [status, token]);
 
   const removeProduct = async (id) => {
-    setLoading(true);
+    setNormalLoading(true);
     setStateId(id);
+    setLoadingId(id, true);
     try {
       const res = await fetch(`${baseUrl}/api/v1/wishlist/${id}`, {
         method: "DELETE",
@@ -69,7 +79,8 @@ const WishListProvider = ({ children }) => {
       console.error("Error removing Product", error.message);
     } finally {
       setStateId(null);
-      setLoading(false);
+      setNormalLoading(false);
+      setLoadingId(id, false);
     }
   };
 
@@ -80,7 +91,7 @@ const WishListProvider = ({ children }) => {
     }
 
     setStateId(id);
-    setLoading(true);
+    setNormalLoading(true);
     const isInWishList = wishList?.data?.some((product) => product._id === id);
 
     if (isInWishList) {
@@ -107,7 +118,7 @@ const WishListProvider = ({ children }) => {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setNormalLoading(false);
     }
   };
 
@@ -118,9 +129,10 @@ const WishListProvider = ({ children }) => {
       value={{
         wishList,
         sendWishList,
-        loading,
+        normalLoading,
         stateId,
         removeProduct,
+        loadingStates,
       }}
     >
       {children}

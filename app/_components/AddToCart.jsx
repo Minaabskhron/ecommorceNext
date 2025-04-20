@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { useCart } from "../_context/CartContext";
 import LoadingSvg from "../_svg/LoadingSvg";
 
@@ -21,23 +22,25 @@ const AddToCart = ({
 }) => {
   const { addToCart, loadingStates } = useCart();
 
+  const modeClass = loadingStates[id]
+    ? styles[disabled]
+    : styles[moving] || styles[singleProduct] || styles[wishListProduct];
+
+  const className = `${modeClass} bg-green-700 text-white  rounded-xl 
+     cursor-pointer 
+    hover:bg-green-900 w-full min-h-[40px]`;
+
   return (
     <button
       disabled={loadingStates[id]}
       onClick={() => {
         addToCart(id);
       }}
-      className={`${
-        loadingStates[id]
-          ? styles[disabled]
-          : styles[moving] || styles[singleProduct] || styles[wishListProduct]
-      }  bg-green-700 text-white  rounded-xl 
-     cursor-pointer 
-    hover:bg-green-900 w-full min-h-[40px]`}
+      className={className}
     >
       {loadingStates[id] ? <LoadingSvg color={"text-white"} /> : "Add to cart"}
     </button>
   );
 };
 
-export default AddToCart;
+export default memo(AddToCart);
