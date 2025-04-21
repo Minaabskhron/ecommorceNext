@@ -12,7 +12,7 @@ const page = async () => {
     <>
       <p className="text-gray-500 text-2xl font-semibold">All Brands</p>
 
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:mx-12 sm:gap-5 lg:grid-cols-4 gap-2">
         {data.map((brand) => (
           <div className="rounded-xl shadow-xl" key={brand._id}>
             <Brand brand={brand} />

@@ -14,7 +14,7 @@ const page = async () => {
         Featured Categories
       </p>
 
-      <div className="grid grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:mx-12 sm:gap-5 lg:grid-cols-4 gap-2">
         {data.map((category) => (
           <div className="rounded-xl shadow-xl " key={category._id}>
             <Category category={category} />
