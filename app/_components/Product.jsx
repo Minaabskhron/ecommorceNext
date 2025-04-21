@@ -6,7 +6,7 @@ import AddToCart from "./AddToCart";
 
 const Product = ({ product }) => {
   return (
-    <div className="p-4 rounded-xl group ">
+    <div className="p-4 rounded-xl group">
       <Link href={`/products/${product._id}`}>
         <div className="grid place-items-center">
           <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[390px] relative">
