@@ -9,13 +9,13 @@ const Product = ({ product }) => {
     <div className="p-4 rounded-xl group ">
       <Link href={`/products/${product._id}`}>
         <div className="grid place-items-center">
-          <div className="w-[290px] h-[390px] relative">
+          <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[390px] relative">
             <Image
               fill
               className="object-contain"
               src={product.imageCover}
               alt="product image"
-              sizes="290px , 390px"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           </div>
         </div>
