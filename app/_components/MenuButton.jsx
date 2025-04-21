@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import MenuButtonSvg from "../_svg/MenuButtonSvg";
+import Link from "next/link";
 
 const MenuButton = () => {
   const [open, setOpen] = useState("hidden");
@@ -20,12 +21,23 @@ const MenuButton = () => {
         <MenuButtonSvg />
       </div>
       <ul
-        className={`${open} absolute bg-[#eee] top-9 w-full flex flex-col pt-6 gap-2`}
+        className={`${open} absolute bg-[#eee]  font-semibold top-14 right-1 p-6 w-full flex flex-col pt-6 gap-2`}
       >
-        <li>Home</li>
-        <li>Products</li>
-        <li>Brands</li>
-        <li>Categories</li>
+        <li>
+          <Link href="/">Home</Link>
+        </li>
+
+        <li>
+          <Link href="/products">Products</Link>
+        </li>
+
+        <li>
+          <Link href="/brands">Brands</Link>
+        </li>
+
+        <li>
+          <Link href="/categories">Categories</Link>
+        </li>
       </ul>
     </div>
   );

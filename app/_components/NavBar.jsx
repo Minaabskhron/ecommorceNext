@@ -7,10 +7,10 @@ import MenuButton from "./MenuButton";
 const NavBar = () => {
   return (
     <div className="bg-[#eee] w-full p-3 fixed top-0 text-gray-500 z-50">
-      <div className="flex items-center gap-3 justify-between relative">
-        <div className="flex items-center lg:gap-5 lg:mx-20">
+      <div className="flex items-center gap-3 justify-between">
+        <div className="flex items-center sm:gap-3 lg:gap-5 lg:mx-20">
           <div className="flex gap-2 items-center ">
-            <div className="">
+            <div>
               <MenuButton />
             </div>
             <Link href="/">

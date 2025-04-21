@@ -57,7 +57,7 @@ const SignUpSignIn = () => {
           </div>
           <div>
             <span
-              className="bg-green-700 text-white py-2 px-3 cursor-pointer rounded-full"
+              className="bg-green-700 text-white py-2 px-3 cursor-pointer sm ms-1 rounded-full"
               onClick={() => {
                 setOpen((s) => !s);
               }}
