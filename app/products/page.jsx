@@ -15,7 +15,7 @@ const page = async () => {
   const { data } = await res.json();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-15 sm:mx-12 sm:gap-5 lg:grid-cols-4 gap-2">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:mx-12 sm:gap-5 lg:grid-cols-4 gap-2">
       {data.map((product) => (
         <div className="rounded-xl shadow-xl" key={product._id}>
           <Product product={product} />

@@ -6,7 +6,7 @@ import AddToCart from "./AddToCart";
 
 const Product = ({ product }) => {
   return (
-    <div className="p-4 rounded-xl group">
+    <div className="p-4 rounded-xl group sm:min-h-[450px] md:min-h-[548px] lg:min-h-[590px]">
       <Link href={`/products/${product._id}`}>
         <div className="grid place-items-center">
           <div className="w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[390px] relative">
@@ -31,7 +31,7 @@ const Product = ({ product }) => {
           <div className="flex items-center justify-between pt-3">
             <div>
               {product.priceAfterDiscount ? (
-                <div className="flex gap-3">
+                <div className="sm:flex sm:gap-3">
                   <p className="line-through">{product.price} EGP</p>
                   <p>{product.priceAfterDiscount} EGP</p>
                 </div>

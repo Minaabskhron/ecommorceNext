@@ -25,7 +25,7 @@ const Footer = () => {
         </button>
       </div>
       <div className="flex justify-between border-b pb-6 border-b-gray-300 pt-6">
-        <div className="flex">
+        <div className="sm:flex">
           <p className="text-black me-2 font-semibold">Payment Partners</p>
           <ul className="flex gap-2">
             <li>
