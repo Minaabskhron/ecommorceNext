@@ -51,7 +51,7 @@ const ProductWishCart = ({
   return (
     <>
       {cart && list && (
-        <div className="flex justify-between text-gray-500 text-2xl">
+        <div className="sm:flex text-center justify-between text-gray-500 text-2xl">
           <p>
             Total price:
             <span className="text-green-600 font-semibold ms-2">

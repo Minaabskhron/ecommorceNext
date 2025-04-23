@@ -7,8 +7,8 @@ const page = () => {
     useWishList();
 
   return (
-    <div className="mx-30">
-      <div className="pt-10">
+    <div className="mx-5 sm:mx-10 md:mx-15 lg:mx-30 ">
+      <div className="sm:pt-10">
         <h1 className="text-3xl font-semibold mb-10 text-gray-500">
           Wishing List
         </h1>

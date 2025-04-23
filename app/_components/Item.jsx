@@ -11,14 +11,14 @@ const Item = memo(
 
     return (
       <div className="shadow-xl mb-5 p-5">
-        <div className="flex items-center">
-          <Image
-            width={110}
-            height={90}
-            src={cart ? product.product.imageCover : product.imageCover}
-            alt="product image"
-          />
-          <div className="flex items-center justify-between flex-grow">
+        <div className="sm:flex items-center justify-between ">
+          <div className="flex items-center">
+            <Image
+              width={110}
+              height={90}
+              src={cart ? product.product.imageCover : product.imageCover}
+              alt="product image"
+            />
             <div className="ps-5 mt-2">
               <p className="text-gray-500 font-semibold text-lg">
                 {cart
@@ -49,10 +49,17 @@ const Item = memo(
                 )}
               </div>
             </div>
-
+          </div>
+          <div
+            className={
+              cart
+                ? "flex justify-center mt-10 sm:mt-0 sm:block"
+                : "mt-10 sm:mt-0"
+            }
+          >
             {cart ? (
               <>
-                <div className="flex gap-3 justify-center items-center">
+                <div className="flex gap-3  sm:justify-center items-center">
                   <button
                     disabled={loadingStates[product?.product?._id]}
                     className=" rounded-lg px-3 py-2 min-w-[47.2px] min-h-[43.2px] border-green-600 border-2 cursor-pointer
