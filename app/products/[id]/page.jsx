@@ -15,20 +15,20 @@ const page = async ({ params }) => {
   const { data } = await res.json();
 
   return (
-    <div className="p-10 flex-col sm:flex gap-20 items-center ">
+    <div className="p-10 flex flex-col sm:flex-row gap-20 items-center ">
       <Image
         src={data.images[0]}
         width={400}
         height={500}
         alt="product image"
       />
-      <div className="flex-grow text-center sm:text-left mt-10 sm:mt-0">
+      <div className="flex-grow  sm:text-left mt-10 sm:mt-0">
         <h2 className="text-3xl font-semibold mb-3">{data.title}</h2>
         <p className="font-semibold">{data.description}</p>
         <h3 className="text-xl font-semibold my-2 text-green-700">
           {data.category.name}
         </h3>
-        <div className="flex justify-between items-center px-20">
+        <div className="flex justify-between items-center sm:px-10 md:px-15 lg:px-20">
           <p> {data.price} EGP</p>
           <div className="flex">
             <Star />
