@@ -4,13 +4,14 @@ import { baseUrl } from "@/app/_lib/const";
 import AddToCart from "@/app/_components/AddToCart";
 import AddToWishlist from "@/app/_components/AddToWishlist";
 import ImagesCarousel from "@/app/_components/ImagesCarousel";
+import NotFound from "@/app/not-found";
 
 const page = async ({ params }) => {
   const { id } = await params;
 
   const res = await fetch(`${baseUrl}/api/v1/products/${id}`);
 
-  if (!res.ok) throw new Error("failed to fetch products");
+  if (!res.ok) return <NotFound />;
 
   const { data } = await res.json();
 

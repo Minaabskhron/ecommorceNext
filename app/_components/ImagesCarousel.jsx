@@ -9,6 +9,7 @@ import Image from "next/image";
 const ImagesCarousel = ({ images }) => {
   return (
     <div className="w-full max-w-sm mx-auto">
+      {/* feh mmkn t7ot brdo hna loop w 7aga asmaha navigation */}
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={30}
