@@ -1,9 +1,9 @@
-import Heart from "@/app/_svg/Heart";
 import Star from "@/app/_svg/Star";
 import { baseUrl } from "@/app/_lib/const";
-import Image from "next/image";
+
 import AddToCart from "@/app/_components/AddToCart";
 import AddToWishlist from "@/app/_components/AddToWishlist";
+import ImagesCarousel from "@/app/_components/ImagesCarousel";
 
 const page = async ({ params }) => {
   const { id } = await params;
@@ -16,12 +16,7 @@ const page = async ({ params }) => {
 
   return (
     <div className="p-10 flex flex-col sm:flex-row gap-20 items-center ">
-      <Image
-        src={data.images[0]}
-        width={400}
-        height={500}
-        alt="product image"
-      />
+      <ImagesCarousel images={data.images} />
       <div className="flex-grow  sm:text-left mt-10 sm:mt-0">
         <h2 className="text-3xl font-semibold mb-3">{data.title}</h2>
         <p className="font-semibold">{data.description}</p>
